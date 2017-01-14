@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+    <title>Promises, HTTP and Resources</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+        crossorigin="anonymous">
+</head>
+
+<body ng-controller="labController">
+    <div class="container">
+        <h1>Promises, HTTP and Resources</h1>
+        <input type="number" ng-model="model.number" class="form-control"/>
+        <input type="button" class="btn btn-primary" value="Check Odd Number" ng-click="checkOddNumber(model.number)"/>
+        <pre>{{model.result}}</pre>
+
+        <div>
+            <input type="text" ng-model="model.search" class="form-control"/>
+            <input class="btn btn-primary" type="button" value="Load Repos" ng-click="getRepos('angular')" ng-hide="model.repos"/>
+        </div>
+
+        <div class="col-md-6">
+            <table class="table table-striped" ng-show="model.repos">
+                <tr>
+                    <th>Name</th>
+                    <th>Language</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="r in model.repos">
+                    <td>
+                        <h4>{{r.name}}</h4> {{r.description}}
+                    </td>
+                    <td>
+                        <h4>{{r.language}}</h4>
+                    </td>
+                    <td><input class="btn btn-success" type="button" value="Detail" ng-click="loadDetail(r.name, r.owner.login)"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="col-md-5" ng-show="model.detail">
+            <h3>Detail</h3>
+            <div class="alert alert-danger" ng-show="model.detail.error">
+                <h3>Error</h3>{{model.detail.error}}
+            </div>
+            <div>
+                <h4>Name</h4>{{model.detail.name}}
+            </div>
+            <div>
+                <h4>Description</h4>{{model.detail.description}}
+            </div>
+            <div>
+                <h4>URL</h4>
+                <a ng-href="{{mode.detail.html_url}}" target="_blank">{{model.detail.html_url}}</a>
+            </div>
+            <div>
+                <h4>Raw Data</h4>
+                <pre>{{model.detail | json}}</pre>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular-resource.min.js"></script>
+    <script src="./app/gitHubService.js"></script>
+    <script src="./app/app.js"></script>
+    <script src="./app/labController.js"></script>
+</body>
+
+</html>
